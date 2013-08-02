@@ -1,0 +1,6 @@
+{
+ "email" : "<rs email>",
+ "password" : "<rs password>",
+ "account_id" : 60073,
+ "api_url" : "https://orange-moo.test.rightscale.com"
+}
