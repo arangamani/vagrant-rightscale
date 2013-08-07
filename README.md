@@ -21,12 +21,14 @@ Then edit `~/.vagrant-rightscale.cfg` by adding your RightScale dashboard creden
 
 ### Preparing a ServerTemplate for "blue-sky" provisioning.
 
-We will be provisioning your Vagrant servers without an IaaS cloud-orchestration layer involved, to do this the RightScale platform has a cloud-type currently code-named "BlueSkies". there is a Currently this functionally is in private Beta, so there are  standard 
+We will be provisioning your Vagrant servers without an IaaS cloud-orchestration layer involved, to do this the RightScale platform has a cloud-type currently code-named "BlueSkies". Currently this functionally is in private Beta, so you will need to assemble your own ServerTemplate that supports BlueSkies.  Here's how...
 
-Import the Base ServerTemplate for linux into your RightScale account from the RightScale Marketplace.  To do so [click here](http://www.rightscale.com/library/server_templates/Base-ServerTemplate-for-Linux-/lineage/8160).
+  1. Import the Base ServerTemplate for linux into your RightScale account from the RightScale Marketplace.  To do so [click here](http://www.rightscale.com/library/server_templates/Base-ServerTemplate-for-Linux-/lineage/8160).
+  2. Clone ST the Base ST and rename to something like "TEST: Base ServerTemplate for Linux (v13.4) with BlueSkies"
+  3. Create a BlueSkies MCI
+  4. Add BlueSkies MCI to your cloned ServerTemplate
 
-
-
+### Configure
 
 Copy the `config/Vagrantfile` into your project
 directory:
@@ -36,6 +38,8 @@ directory:
 
 Then edit ```~/my_dev_project/Vagrantfile``` to point to the ServerTemplate you
 want and setup any inputs.
+
+### Launch
 
 Launch a local VM:
 
@@ -61,24 +65,22 @@ Shutdown your VM:
 To work on the `vagrant-rightscale` plugin, clone this repository, and use
 [Bundler](http://gembundler.com) to get the dependencies:
 
-```
-$ bundle
-```
+    > bundle
 
 Once you have the dependencies, verify the unit tests pass with `rake`:
 
-```
-$ bundle exec rake
-```
+    > bundle exec rake
 
 If those pass, you're ready to start developing the plugin. You can test
-the plugin without installing it into your Vagrant environment by just
-creating a `Vagrantfile` in the top level of this directory (it is gitignored)
-that uses it, and uses bundler to execute Vagrant:
+this plugin without installing it into your Vagrant environment.  To do so, place a
+`Vagrantfile` in the top level of this directory (it is gitignored).  For example:
 
-```
-$ bundle exec vagrant up --provider=rightscale
-```
+    > cp config/Vagrantfile .
+
+Then use bundler to execute Vagrant:
+
+    > bundle exec vagrant up --provider=rightscale
+
 
 ## Contributing
 
