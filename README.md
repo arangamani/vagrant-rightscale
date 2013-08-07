@@ -4,18 +4,31 @@ Provision your vagrant boxes using RightScale ServerTemplates.
 
 ## Requirement
 
-You must have Vagrant 1.2 or greater installed.
+You must have Vagrant 1.2 or greater installed.  Please see the [vagrant documentation](http://docs.vagrantup.com/v2/) for instructions.
 
 ## Installation
+
 
 Copy the configuration file into your home dir and secure it:
 
     > cp config/vagrant-rightscale.cfg.example ~/.vagrant-rightscale.cfg
     > chmod 600 ~/.vagrant-rightscale.cfg
 
-Then edit ```~/.vagrant-rightscale.cfg``` and add your RightScale dashboard credentials.
+Then edit `~/.vagrant-rightscale.cfg` by adding your RightScale dashboard credentials.
 
-Copy the ```config/Vagrantfile``` into your project
+
+## Getting Started
+
+### Preparing a ServerTemplate for "blue-sky" provisioning.
+
+We will be provisioning your Vagrant servers without an IaaS cloud-orchestration layer involved, to do this the RightScale platform has a cloud-type currently code-named "BlueSkies". there is a Currently this functionally is in private Beta, so there are  standard 
+
+Import the Base ServerTemplate for linux into your RightScale account from the RightScale Marketplace.  To do so [click here](http://www.rightscale.com/library/server_templates/Base-ServerTemplate-for-Linux-/lineage/8160).
+
+
+
+
+Copy the `config/Vagrantfile` into your project
 directory:
 
     > mkdir ~/my_dev_project
@@ -23,8 +36,6 @@ directory:
 
 Then edit ```~/my_dev_project/Vagrantfile``` to point to the ServerTemplate you
 want and setup any inputs.
-
-## Usage
 
 Launch a local VM:
 
