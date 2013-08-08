@@ -79,7 +79,7 @@ this plugin without installing it into your Vagrant environment.  To do so, plac
 
 Then use bundler to execute Vagrant:
 
-    > bundle exec vagrant up --provider=rightscale
+    > bundle exec vagrant up
 
 
 ## Contributing
