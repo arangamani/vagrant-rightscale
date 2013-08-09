@@ -52,7 +52,7 @@ module VagrantPlugins
         unless @deployment && @server
           # We need to find the to be used in the server if the MCI name is given
           begin
-            @mci = config.multi_cloud_image.nil? ? nil : @conn.find_mci_by_name(config.multi_cloud_image_name)
+            @mci = config.multi_cloud_image ? nil : @conn.find_mci_by_name(config.multi_cloud_image_name)
           rescue Exception => e
             raise RightScaleError, "ERROR: Cannot find the mci '#{config.multi_cloud_image_name}'. Please make sure" +
               " that you have the MCI under the server template selected." +

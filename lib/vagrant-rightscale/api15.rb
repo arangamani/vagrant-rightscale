@@ -147,7 +147,7 @@ module VagrantPlugins
         }
         # Use the MCI if provided otherwise let the API choose the default MCI
         # in the ServerTemplate.
-        create_params[:server][:instance][:multi_cloud_image_href] unless mci_href.nil?
+        create_params[:server][:instance][:multi_cloud_image_href] = mci_href unless mci_href.nil?
         server = @connection.servers.create(create_params)
       end
 
