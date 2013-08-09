@@ -44,14 +44,12 @@ describe "API15 object" do
   end
 
   it "should find MCI by name" do
-    #pending ("TODO: add support for multi_cloud_image_name")
     mcisStub = double("multi_cloud_images", :index => [ :name => "my_fake_mci" ])
     @api.instance_variable_get("@connection").should_receive(:multi_cloud_images).and_return(mcisStub)
     @api.find_mci_by_name("my_fake_mci")
   end
 
   it "should raise error if multiple MCI found by name" do
-    #pending ("TODO: add support for multi_cloud_image_name")
     mcisStub = double("multi_cloud_images", :index => [ {:name => "my_fake_mci"}, {:name => "my_fake_mci2"} ])
     @api.instance_variable_get("@connection").should_receive(:multi_cloud_images).and_return(mcisStub)
     lambda{@api.find_mci_by_name("my_fake_mci")}.should raise_error
