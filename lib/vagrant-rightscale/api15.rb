@@ -63,10 +63,10 @@ module VagrantPlugins
         cloud
       end
 
-      def find_mci_by_name(server_template, mci_name)
+      def find_mci_by_name(mci_name)
         mci = nil
-        mci_list = @connection.mcis.index(:filter => ["name==#{name}"])
-        raise "More than one MultiCloud image with the name of '#{name}'. " +
+        mci_list = @connection.multi_cloud_images.index(:filter => ["name==#{mci_name}"])
+        raise "More than one MultiCloud image with the name of '#{mci_name}'. " +
               "Please fix via the RightScale dashboard and retry." if mci_list.size > 1
         mci = mci_list.first unless mci_list.empty?
         mci
@@ -122,6 +122,10 @@ module VagrantPlugins
           raise "ERROR: ServerTemplate parameter not initialized properly"
         end
 
+        unless mci_href = mci.show.href
+          raise "ERROR: Multi Cloud Image parameter not initialized properly"
+        end
+
         unless d_href = deployment.show.href
           raise "ERROR: Deployment parameter not initialized properly"
         end
@@ -139,7 +143,8 @@ module VagrantPlugins
                 :deployment_href => d_href,
                 :instance => {
                   :cloud_href => c_href,
-                  :server_template_href => st_href
+                  :server_template_href => st_href,
+                  :multi_cloud_image_href => mci_href
                 }
               }
             })

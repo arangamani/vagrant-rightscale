@@ -50,6 +50,17 @@ module VagrantPlugins
           end
         end
 
+        unless @deployment && @server
+          # We need to find the
+          begin
+            @mci = @conn.find_mci_by_name(config.multi_cloud_image_name)
+          rescue Exception => e
+            raise RightScaleError, "ERROR: Cannot find the mci '#{config.multi_cloud_image_name}'. Please make sure" +
+              " that you have the MCI under the server template selected." +
+              " Exception: #{e.inspect}"
+          end
+        end
+
         # create deployment and server as needed
         unless @deployment
           @deployment = @conn.create_deployment(config.deployment_name)
