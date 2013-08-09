@@ -114,16 +114,15 @@ module VagrantPlugins
       end
 
       def create_server(deployment, server_template, mci, cloud, name)
-
-        #TODO: mci param not used yet
-
         # check params
         unless st_href = server_template.show.href
           raise "ERROR: ServerTemplate parameter not initialized properly"
         end
 
-        unless mci_href = mci.show.href
-          raise "ERROR: Multi Cloud Image parameter not initialized properly"
+        unless mci.nil?
+          unless mci_href = mci.show.href
+            raise "ERROR: Multi Cloud Image parameter not initialized properly"
+          end
         end
 
         unless d_href = deployment.show.href
@@ -135,19 +134,21 @@ module VagrantPlugins
         end
 
         # create server in deployment using specfied ST
-        server =
-          @connection.servers.create({
-                :server => {
-                :name => name,
-                :decription => "Created by the Vagrant",
-                :deployment_href => d_href,
-                :instance => {
-                  :cloud_href => c_href,
-                  :server_template_href => st_href,
-                  :multi_cloud_image_href => mci_href
-                }
-              }
-            })
+        create_params = {
+            :server => {
+            :name => name,
+            :decription => "Created by the Vagrant",
+            :deployment_href => d_href,
+            :instance => {
+              :cloud_href => c_href,
+              :server_template_href => st_href
+            }
+          }
+        }
+        # Use the MCI if provided otherwise let the API choose the default MCI
+        # in the ServerTemplate.
+        create_params[:server][:instance][:multi_cloud_image_href] unless mci_href.nil?
+        server = @connection.servers.create(create_params)
       end
 
       def is_provisioned?(server)

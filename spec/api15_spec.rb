@@ -88,7 +88,28 @@ describe "API15 object" do
     @api.create_deployment("my_deployment")
   end
 
-  it "should create server" do
+  it "should create server with the default MCI" do
+    dStub = double("deployment", :href => "/some/fake/path")
+    dsStub = double("deployments", :show => dStub)
+    @api.should_receive(:create_deployment).and_return(dsStub)
+    deployment = @api.create_deployment("my_deployment")
+
+    stStub = double("servertemplate", :href => "/some/fake/path", :show => "")
+    stsStub = double("servertemplates", :show => stStub)
+    @api.should_receive(:find_servertemplate).and_return(stsStub)
+    server_template = @api.find_servertemplate(1234)
+
+    cStub = double("cloud", :href => "/some/fake/path")
+    csStub = double("clouds", :show => cStub)
+    @api.should_receive(:find_cloud_by_name).and_return(csStub)
+    cloud = @api.find_cloud_by_name(1234)
+
+    serversStub = double("servers", :create => [ :name => "my_fake_server" ])
+    @api.instance_variable_get("@connection").should_receive(:servers).and_return(serversStub)
+    @api.create_server(deployment, server_template, nil, cloud, "my_fake_server")
+  end
+
+  it "should create server with the MCI given" do
     dStub = double("deployment", :href => "/some/fake/path")
     dsStub = double("deployments", :show => dStub)
     @api.should_receive(:create_deployment).and_return(dsStub)

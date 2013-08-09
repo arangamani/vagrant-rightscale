@@ -46,14 +46,13 @@ module VagrantPlugins
             raise RightScaleError, "ERROR: cannot find ServerTemplate '#{config.servertemplate}'. Did you import it?\n" +
                   "Visit http://bit.ly/VnOiA7 for more info.\n\n"
             # can we find the MCI?
-            #TODO: @mci = @conn.find_multicloudimage_by_name(@servertemplate, config.multi_cloud_image_name)
           end
         end
 
         unless @deployment && @server
-          # We need to find the
+          # We need to find the to be used in the server if the MCI name is given
           begin
-            @mci = @conn.find_mci_by_name(config.multi_cloud_image_name)
+            @mci = config.multi_cloud_image.nil? ? nil : @conn.find_mci_by_name(config.multi_cloud_image_name)
           rescue Exception => e
             raise RightScaleError, "ERROR: Cannot find the mci '#{config.multi_cloud_image_name}'. Please make sure" +
               " that you have the MCI under the server template selected." +
