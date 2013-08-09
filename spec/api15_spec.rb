@@ -44,16 +44,16 @@ describe "API15 object" do
   end
 
   it "should find MCI by name" do
-    pending ("TODO: add support for multi_cloud_image_name")
-    mcisStub = double("mcis", :index => [ :name => "my_fake_mci" ])
-    @api.instance_variable_get("@connection").should_receive(:mcis).and_return(mcisStub)
+    #pending ("TODO: add support for multi_cloud_image_name")
+    mcisStub = double("multi_cloud_images", :index => [ :name => "my_fake_mci" ])
+    @api.instance_variable_get("@connection").should_receive(:multi_cloud_images).and_return(mcisStub)
     @api.find_mci_by_name("my_fake_mci")
   end
 
   it "should raise error if multiple MCI found by name" do
-    pending ("TODO: add support for multi_cloud_image_name")
-    mcisStub = double("mcis", :index => [ {:name => "my_fake_mci"}, {:name => "my_fake_mci2"} ])
-    @api.instance_variable_get("@connection").should_receive(:mcis).and_return(mcisStub)
+    #pending ("TODO: add support for multi_cloud_image_name")
+    mcisStub = double("multi_cloud_images", :index => [ {:name => "my_fake_mci"}, {:name => "my_fake_mci2"} ])
+    @api.instance_variable_get("@connection").should_receive(:multi_cloud_images).and_return(mcisStub)
     lambda{@api.find_mci_by_name("my_fake_mci")}.should raise_error
   end
 
@@ -99,6 +99,11 @@ describe "API15 object" do
     @api.should_receive(:find_servertemplate).and_return(stsStub)
     server_template = @api.find_servertemplate(1234)
 
+    mciStub = double("mci", :href => "/some/fake/path")
+    mcisStub = double("mcis", :show => mciStub)
+    @api.should_receive(:find_mci_by_name).and_return(mcisStub)
+    mci = @api.find_mci_by_name("CentOS")
+
     cStub = double("cloud", :href => "/some/fake/path")
     csStub = double("clouds", :show => cStub)
     @api.should_receive(:find_cloud_by_name).and_return(csStub)
@@ -106,7 +111,7 @@ describe "API15 object" do
 
     serversStub = double("servers", :create => [ :name => "my_fake_server" ])
     @api.instance_variable_get("@connection").should_receive(:servers).and_return(serversStub)
-    @api.create_server(deployment, server_template, nil, cloud, "my_fake_server")
+    @api.create_server(deployment, server_template, mci, cloud, "my_fake_server")
   end
 
   it "should launch server with inputs" do
