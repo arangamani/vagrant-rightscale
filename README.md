@@ -56,7 +56,6 @@ Shutdown your VM:
 
 ## Bugs and Known Limitations
  * Cannot have duplicate server names in account -- should only search for servers within specified deployment
- * does not yet select correct MCI on the ST.  Your default MCI must have blueskies cloud settings in it.  Add support for multi_cloud_image_name to fix.
  * does not terminate servers in dashboard or do any cleanup -- you must login and manually delete servers.
  * fails without a good error message if "RS_rn_auth" is not in the userdata
 
