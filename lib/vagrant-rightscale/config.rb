@@ -7,16 +7,27 @@ module VagrantPlugins
       # Contact support@rightscale.com for more information.
       VAGRANT_CLOUD_NAME = "BlueSkies"
 
+      # RightScale account email for authentication
       attr_accessor :email
+      # RightScale account password for authentication
       attr_accessor :password
+      # RightScale account ID
       attr_accessor :account_id
+      # RightScale API URL
       attr_accessor :api_url
-      attr_accessor :servertemplate   # name or id
+      # The name or ID of the ServerTemplate
+      attr_accessor :servertemplate
+      # The name of the deployment
       attr_accessor :deployment_name
+      # The multi cloud image name
       attr_accessor :multi_cloud_image_name
+      # The name of the cloud
       attr_accessor :cloud_name
+      # The name of the server
       attr_accessor :server_name
+      # The inputs to be applied to the server
       attr_accessor :server_inputs
+      # The operational scripts to run on the server
       attr_accessor :operational_scripts
 
       def initialize
@@ -32,6 +43,7 @@ module VagrantPlugins
       # order to set defaults. If finalize! is called, that configuration will
       # never be merged again, it is final. This lets you detect any UNSET_VALUE
       # and set the proper default.
+      #
       def finalize!
         @cloud_name = VAGRANT_CLOUD_NAME if @cloud_name == UNSET_VALUE || @cloud_name == nil
       end
